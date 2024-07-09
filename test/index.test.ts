@@ -25,22 +25,10 @@ describe('derivative', () => {
     jsc.integer(1, 1000), i => checkEqualityAndPrint(derivative(`X${i}`), `${i}`, String(i))
   )
 
-  it('derivative of X^C is CX', () => {
-    expect(derivative('X^2')).toBe('2X')
-  })
-
   jsc.property(
     "derivative of X^C is C",
     jsc.integer(-1000, 1000), i => checkEqualityAndPrint(derivative(`X^${i}`), `${i}X`, String(i))
   )
-
-  it('derivative of X + C is 1', () => {
-    expect(derivative('X + -20')).toBe('1')
-  })
-
-  it('derivative of C + X is 1', () => {
-    expect(derivative('20 + X')).toBe('1')
-  })
 
   jsc.property(
     "derivative of X + C is 1",
@@ -53,10 +41,6 @@ describe('derivative', () => {
   )
 
   describe('sum rule', () => {
-    it("derivative of AX + BX is A+B", () => {
-      expect(derivative(`1X + 3X`)).toBe('4')
-    })
-
     jsc.property(
       "derivative of AX + BX is A+B",
       jsc.integer(1, 1000), jsc.integer(1, 1000),
@@ -74,7 +58,6 @@ describe('sum', () => {
   it('sum of a variable is itself', () => {
     expect(sum(["A"])).toBe("A")
   })
-
 
   it('sum of an expression including a variable is itself', () => {
     expect(sum(["5A"])).toBe("5A")
