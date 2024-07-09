@@ -22,12 +22,12 @@ describe('derivative', () => {
 
   jsc.property(
     "derivative of XC is C",
-    jsc.integer(1, 1000), i => checkEqualityAndPrint(derivative(`X${i}`), `${i}`, String(i))
+    jsc.integer(-1000, 1000), i => checkEqualityAndPrint(derivative(`X${i}`), `${i}`, String(i))
   )
 
   jsc.property(
     "derivative of X^C is C",
-    jsc.integer(-1000, 1000), i => checkEqualityAndPrint(derivative(`X^${i}`), `${i}X`, String(i))
+    jsc.integer(2, 1000), i => checkEqualityAndPrint(derivative(`X^${i}`), `${i}X`, String(i))
   )
 
   jsc.property(
@@ -43,10 +43,9 @@ describe('derivative', () => {
   describe('sum rule', () => {
     jsc.property(
       "derivative of AX + BX is A+B",
-      jsc.integer(1, 1000), jsc.integer(1, 1000),
+      jsc.integer(-1000, 1000), jsc.integer(-1000, 1000),
       (a, b) => derivative(`${a}X + ${b}X`) === `${a + b}`
     )
-    // TODO: better handling of negative numbers
   })
 })
 

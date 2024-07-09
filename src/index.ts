@@ -3,7 +3,7 @@ export const sum = (addends: string[]): string => {
 
   const constants = addends
     .filter(a => /^-?\d+(\.\d+)?$/.test(a))
-    .reduce((a, b) => a + parseFloat(b), 0)
+    .reduce((a, b) => a + parseInt(b), 0)
 
   const coeficcients = addends
     .filter(a => /[A-Z]/.test(a))
@@ -12,10 +12,10 @@ export const sum = (addends: string[]): string => {
         variableName = b.match(/[A-Z]/)![0]
       }
       const coeficcient = b.match(/-?\d+(\.\d+)?/)
-      return a + (coeficcient && coeficcient[0] ? parseFloat(coeficcient[0]) : 1)
+      return a + (coeficcient && coeficcient[0] ? parseInt(coeficcient[0]) : 1)
     }, 0)
 
-  return constants > 0 ? String(constants) : `${coeficcients === 1 ? '' : coeficcients}${variableName}`
+  return constants !== 0 ? String(constants) : `${coeficcients === 1 ? '' : coeficcients}${variableName}`
 }
 
 export const derivative = (expression: string): string => {
