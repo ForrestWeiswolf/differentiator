@@ -20,7 +20,6 @@ export const sum = (addends: string[]): string => {
 
 export const derivative = (expression: string): string => {
   const addends = expression.replace(/ /g, '').split('+')
-  console.log(addends)
 
   return sum(addends.map((addend) => {
     const [base, exponent] = addend.split('^')
@@ -34,7 +33,6 @@ export const derivative = (expression: string): string => {
       return '1'
     } else {
       const coeficcient = base.replace(variable[0], '')
-      console.log({coeficcient})
       return `${coeficcient.length > 0 ? parseInt(coeficcient) : 1}`
     }
   }))

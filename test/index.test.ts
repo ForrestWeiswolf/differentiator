@@ -1,10 +1,11 @@
 import jsc from 'jsverify'
 import { derivative, sum } from '../src/index'
+import { checkEqualityAndPrint } from './utils'
 
 describe('derivative', () => {
   jsc.property(
     "derivative of a number is 0",
-    jsc.integer(-1000, 1000), i => derivative(`${i}`) === '0'
+    jsc.integer(-1000, 1000), i => checkEqualityAndPrint(derivative(`${i}`), '0', String(i))
   )
 
   it('derivative of a variable is 1', () => {
@@ -21,7 +22,7 @@ describe('derivative', () => {
 
   jsc.property(
     "derivative of XC is C",
-    jsc.integer(1, 1000), i => derivative(`X${i}`) === `${i}`
+    jsc.integer(1, 1000), i => checkEqualityAndPrint(derivative(`X${i}`), `${i}`, String(i))
   )
 
   it('derivative of X^C is CX', () => {
@@ -31,7 +32,7 @@ describe('derivative', () => {
 
   jsc.property(
     "derivative of X^C is C",
-    jsc.integer(-1000, 1000), i => derivative(`X^${i}`) === `${i}X`
+    jsc.integer(-1000, 1000), i => checkEqualityAndPrint(derivative(`X^${i}`), `${i}X`, String(i))
   )
 
   it('derivative of X + C is 1', () => {
@@ -44,12 +45,12 @@ describe('derivative', () => {
 
   // jsc.property(
   //   "derivative of X + C is 1",
-  //   jsc.integer(-1000, 1000), i => derivative(`X + ${i}`) === '1'
+  //   jsc.integer(-1000, 1000), i => checkEqualityAndPrint(derivative(`X + ${i}`), '1', String(i))
   // )
 
   // jsc.property(
   //   "derivative of C + X is 1",
-  //   jsc.integer(-1000, 1000), i => derivative(`X + ${i}`) === '1'
+  //   jsc.integer(-1000, 1000), i => checkEqualityAndPrint(derivative(`X + ${i}`), '1', String(i))
   // )
 
   describe('sum rule', () => {
