@@ -44,7 +44,7 @@ describe('derivative', () => {
     jsc.property(
       "derivative of AX + BX is A+B",
       jsc.integer(-1000, 1000), jsc.integer(-1000, 1000),
-      (a, b) => derivative(`${a}X + ${b}X`) === `${a + b}`
+      (a, b) => checkEqualityAndPrint(derivative(`${a}X + ${b}X`), `${a + b}`)
     )
   })
 })
@@ -76,5 +76,9 @@ describe('sum', () => {
 
   it('sum of 2B and 4B is 6B', () => {
     expect(sum(["2B", "4B"])).toBe("6B")
+  })
+
+  it('sum of 2A and 7 is 2A+7', () => {
+    expect(sum(["2A", "7"])).toBe("2A+7")
   })
 })

@@ -8,14 +8,16 @@ export const sum = (addends: string[]): string => {
   const coeficcients = addends
     .filter(a => /[A-Z]/.test(a))
     .reduce((a, b) => {
-      if(b.match(/[A-Z]/)) {
+      if (b.match(/[A-Z]/)) {
         variableName = b.match(/[A-Z]/)![0]
       }
       const coeficcient = b.match(/-?\d+(\.\d+)?/)
       return a + (coeficcient && coeficcient[0] ? parseInt(coeficcient[0]) : 1)
     }, 0)
 
-  return constants !== 0 ? String(constants) : `${coeficcients === 1 ? '' : coeficcients}${variableName}`
+  const formattedVarAndCoefficient = `${coeficcients === 1 || coeficcients === 0 ? '' : coeficcients}${variableName}`
+  const formattedConstant = constants !== 0 ? String(constants) : ''
+  return `${formattedVarAndCoefficient}${formattedVarAndCoefficient && formattedConstant ? '+' : ''}${formattedConstant}` || '0'
 }
 
 export const derivative = (expression: string): string => {
