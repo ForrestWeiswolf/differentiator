@@ -31,6 +31,11 @@ describe('derivative', () => {
   )
 
   jsc.property(
+    "derivative of 2X^C is 2C",
+    jsc.integer(2, 1000), i => checkEqualityAndPrint(derivative(`2X^${i}`), `${i*2}X`, String(i))
+  )
+
+  jsc.property(
     "derivative of X + C is 1",
     jsc.integer(-1000, 1000), i => checkEqualityAndPrint(derivative(`X + ${i}`), '1', String(i))
   )
@@ -45,6 +50,18 @@ describe('derivative', () => {
       "derivative of AX + BX is A+B",
       jsc.integer(-1000, 1000), jsc.integer(-1000, 1000),
       (a, b) => checkEqualityAndPrint(derivative(`${a}X + ${b}X`), `${a + b}`)
+    )
+
+    jsc.property(
+      "derivative of X^2 + CX is 2X+C",
+      jsc.integer(1, 1000),
+      (i) => checkEqualityAndPrint(derivative(`X^2 + ${i}X`), `2X+${i}`)
+    )
+
+    jsc.property(
+      "derivative of AX^2 + BX is 2A+B",
+      jsc.integer(1, 1000), jsc.integer(1, 1000),
+      (a, b) => checkEqualityAndPrint(derivative(`${a}X^2 + ${b}X`), `${2 * a}X+${b}`)
     )
   })
 })
@@ -69,7 +86,7 @@ describe('sum', () => {
   it('sum of A and A is 2A', () => {
     expect(sum(["A", "A"])).toBe("2A")
   })
-  
+
   it('sum of two expressions with same variable', () => {
     expect(sum(["2A", "4A"])).toBe("6A")
     expect(sum(["2B", "4B"])).toBe("6B")
