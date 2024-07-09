@@ -69,16 +69,13 @@ describe('sum', () => {
   it('sum of A and A is 2A', () => {
     expect(sum(["A", "A"])).toBe("2A")
   })
-
-  it('sum of 2A and 4A is 6A', () => {
+  
+  it('sum of two expressions with same variable', () => {
     expect(sum(["2A", "4A"])).toBe("6A")
-  })
-
-  it('sum of 2B and 4B is 6B', () => {
     expect(sum(["2B", "4B"])).toBe("6B")
   })
 
-  it('sum of 2A and 7 is 2A+7', () => {
+  it('sum of a variable and a constant', () => {
     expect(sum(["2A", "7"])).toBe("2A+7")
   })
 })
