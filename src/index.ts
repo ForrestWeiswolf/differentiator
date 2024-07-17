@@ -29,24 +29,58 @@ export const sum = (...addends: string[]): string => {
   return `${formattedVarAndCoefficient}${formattedVarAndCoefficient && formattedConstant ? '+' : ''}${formattedConstant}` || '0'
 }
 
-export const derivative = (expression: string): string => {
-  const addends = expression.replace(/ /g, '').split('+')
+type Operation = {
+  symbol: string
+  rule: (terms: string[]) => string
+}
 
-  return sum(...addends.map((addend) => {
-    const [base, exponent] = addend.split('^')
-    const variable = addend.match(/[A-Z]/)
-    const coeficcient = parseInt(getRegexMatchOrDefault(base, /-?\d+/, '1'))
+const operations = [
+  {
+    symbol: '^', rule: ([base, exponent]: string[]) => {
+      const variable = base.match(/[A-Z]/) || exponent.match(/[A-Z]/)
+      const coeficcient = parseInt(getRegexMatchOrDefault(base, /-?\d+/, '1'))
 
-    if (!variable?.length) {
-      return '0'
-    } else if (exponent) {
-      return `${parseInt(exponent)*coeficcient}${variable[0]}`
-    } else if (base === variable[0]) {
-      return '1'
-    } else {
-      const coeficcient = base.replace(variable[0], '')
-      return `${coeficcient.length > 0 ? parseInt(coeficcient) : 1}`
+      if (!variable?.length) {
+        return '0' // TODO
+      } else {
+        return `${parseInt(exponent) * coeficcient}${variable[0]}`
+      }
     }
-  }))
+  },
+  { symbol: '+', rule: (addends: string[]) => sum(...addends.map(derivative)) },
+]
+
+const unaryDerivative = (expression: string): string => {
+  const variable = expression.match(/[A-Z]/)
+
+  if (!variable?.length) {
+    return '0'
+  } else if (expression === variable[0]) {
+    return '1'
+  } else {
+    const coeficcient = expression.replace(variable[0], '')
+    return `${coeficcient.length > 0 ? parseInt(coeficcient) : 1}`
+  }
+}
+
+export const derivative = (expression: string): string => {
+  expression = expression.replace(/ /g, '')
+  if (!operations.some(operation => expression.includes(operation.symbol))) {
+    console.log(expression, unaryDerivative(expression))
+    return unaryDerivative(expression)
+  }
+
+  let result = '';
+
+  operations.forEach(operation => {
+    if (expression.includes(operation.symbol)) {
+      const terms = expression.split(operation.symbol)
+      console.log({ operation, expression, terms })
+
+      result = operation.rule(terms)
+    }
+  })
+
+  return result
 }
 

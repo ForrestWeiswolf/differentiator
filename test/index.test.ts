@@ -49,7 +49,7 @@ describe('derivative', () => {
     jsc.property(
       "derivative of AX + BX is A+B",
       jsc.integer(-1000, 1000), jsc.integer(-1000, 1000),
-      (a, b) => checkEqualityAndPrint(derivative(`${a}X + ${b}X`), `${a + b}`)
+      (a, b) => checkEqualityAndPrint(derivative(`${a}X + ${b}X`), `${a + b}`, `${a}, ${b})`)
     )
 
     jsc.property(
@@ -61,7 +61,7 @@ describe('derivative', () => {
     jsc.property(
       "derivative of AX^2 + BX is 2A+B",
       jsc.integer(1, 1000), jsc.integer(1, 1000),
-      (a, b) => checkEqualityAndPrint(derivative(`${a}X^2 + ${b}X`), `${2 * a}X+${b}`)
+      (a, b) => checkEqualityAndPrint(derivative(`${a}X^2 + ${b}X`), `${2 * a}X+${b}`, `${a}, ${b})`)
     )
   })
 })
