@@ -35,34 +35,25 @@ const operations = [
     symbol: '^', rule: ([base, exponent]: string[], variable: string) => {
       const coeficcient = parseInt(getRegexMatchOrDefault(base, /-?\d+/, '1'))
 
-      if (!variable?.length) {
-        return '0' // TODO: look for cases where this may be incorrect
-      } else {
-        return `${parseInt(exponent) * coeficcient}${variable[0]}`
-      }
+      return variable?.length ? `${parseInt(exponent) * coeficcient}${variable[0]}` : '0' // TODO: look for cases where the 0 may be incorrect
     }
   },
 ]
-
-const unaryDerivative = (expression: string, variable: string): string => {
-  if (variable === '') {
-    return '0'
-  } else if (expression === variable[0]) {
-    return '1'
-  } else {
-    const coeficcient = expression.replace(variable[0], '')
-    return `${coeficcient.length > 0 ? parseInt(coeficcient) : 1}`
-  }
-}
 
 export const derivative = (expression: string): string => {
   expression = expression.replace(/ /g, '')
   const variable = getRegexMatchOrDefault(expression, /[A-Z]/, '')
 
   const operationsPresent = operations.filter(operation => expression.includes(operation.symbol))
-  if (operationsPresent.length === 0) {
-    return unaryDerivative(expression, variable)
-  }
 
-  return operationsPresent[0].rule(expression.split(operationsPresent[0].symbol), variable)
+  if (variable === '') {
+    return '0'
+  } else if (expression === variable[0]) {
+    return '1'
+  } else if (operationsPresent.length === 0){
+    const coeficcient = expression.replace(variable[0], '')
+    return `${coeficcient.length > 0 ? parseInt(coeficcient) : 1}`
+  } else {
+    return operationsPresent[0].rule(expression.split(operationsPresent[0].symbol), variable)
+  }
 }
