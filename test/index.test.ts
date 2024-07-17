@@ -68,31 +68,31 @@ describe('derivative', () => {
 
 describe('sum', () => {
   it('sum of a number is itself', () => {
-    expect(sum("12")).toBe("12")
+    expect(sum(["12"])).toBe("12")
   })
 
   it('sum of a variable is itself', () => {
-    expect(sum("A")).toBe("A")
+    expect(sum(["A"], 'A')).toBe("A")
   })
 
   it('sum of an expression including a variable is itself', () => {
-    expect(sum("5A")).toBe("5A")
+    expect(sum(["5A"], 'A')).toBe("5A")
   })
 
   it('sum of several numbers is just their sum', () => {
-    expect(sum("12", "1", "1")).toBe("14")
+    expect(sum(["12", "1", "1"], 'A')).toBe("14")
   })
 
   it('sum of A and A is 2A', () => {
-    expect(sum("A", "A")).toBe("2A")
+    expect(sum(["A", "A"], 'A')).toBe("2A")
   })
 
   it('sum of two expressions with same variable', () => {
-    expect(sum("2A", "4A")).toBe("6A")
-    expect(sum("2B", "4B")).toBe("6B")
+    expect(sum(["2A", "4A"], 'A')).toBe("6A")
+    expect(sum(["2B", "4B"], 'B')).toBe("6B")
   })
 
   it('sum of a variable and a constant', () => {
-    expect(sum("2A", "7")).toBe("2A+7")
+    expect(sum(["2A", "7"], 'A')).toBe("2A+7")
   })
 })
