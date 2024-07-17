@@ -7,7 +7,7 @@ export const getRegexMatchOrDefault = (str: string, regex: RegExp, defaultResult
   }
 }
 
-export const sum = (addends: string[]): string => {
+export const sum = (...addends: string[]): string => {
   let variableName = ''
 
   const constants = addends
@@ -32,7 +32,7 @@ export const sum = (addends: string[]): string => {
 export const derivative = (expression: string): string => {
   const addends = expression.replace(/ /g, '').split('+')
 
-  return sum(addends.map((addend) => {
+  return sum(...addends.map((addend) => {
     const [base, exponent] = addend.split('^')
     const variable = addend.match(/[A-Z]/)
     const coeficcient = parseInt(getRegexMatchOrDefault(base, /-?\d+/, '1'))
