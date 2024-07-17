@@ -1,6 +1,6 @@
 export const getRegexMatchOrDefault = (str: string, regex: RegExp, defaultResult: string): string => {
   const match = str.match(regex)
-  if(match && match[0]){
+  if (match && match[0]) {
     return match[0]
   } else {
     return defaultResult
@@ -29,12 +29,8 @@ export const sum = (...addends: string[]): string => {
   return `${formattedVarAndCoefficient}${formattedVarAndCoefficient && formattedConstant ? '+' : ''}${formattedConstant}` || '0'
 }
 
-type Operation = {
-  symbol: string
-  rule: (terms: string[]) => string
-}
-
 const operations = [
+  { symbol: '+', rule: (addends: string[]) => sum(...addends.map(derivative)) },
   {
     symbol: '^', rule: ([base, exponent]: string[]) => {
       const variable = base.match(/[A-Z]/) || exponent.match(/[A-Z]/)
@@ -47,7 +43,6 @@ const operations = [
       }
     }
   },
-  { symbol: '+', rule: (addends: string[]) => sum(...addends.map(derivative)) },
 ]
 
 const unaryDerivative = (expression: string): string => {
@@ -65,22 +60,11 @@ const unaryDerivative = (expression: string): string => {
 
 export const derivative = (expression: string): string => {
   expression = expression.replace(/ /g, '')
-  if (!operations.some(operation => expression.includes(operation.symbol))) {
-    console.log(expression, unaryDerivative(expression))
+
+  const operationsPresent = operations.filter(operation => expression.includes(operation.symbol))
+  if (operationsPresent.length === 0) {
     return unaryDerivative(expression)
   }
 
-  let result = '';
-
-  operations.forEach(operation => {
-    if (expression.includes(operation.symbol)) {
-      const terms = expression.split(operation.symbol)
-      console.log({ operation, expression, terms })
-
-      result = operation.rule(terms)
-    }
-  })
-
-  return result
+  return operationsPresent[0].rule(expression.split(operationsPresent[0].symbol))
 }
-
