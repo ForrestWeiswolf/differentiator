@@ -8,6 +8,11 @@ describe('derivative', () => {
     jsc.integer(-1000, 1000), i => checkEqualityAndPrint(derivative(`${i}`), '0', String(i))
   )
 
+  it('derivative of a numerical expression is 0', () => {
+    expect(derivative('1+1+1')).toBe("0")
+    expect(derivative('2^8')).toBe("0")
+  })
+
   it('derivative of a variable is 1', () => {
     expect(derivative('X')).toBe("1")
   })

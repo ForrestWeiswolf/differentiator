@@ -19,19 +19,24 @@ export const sum = (addends: string[], variable?: string): string => {
       return a + coeficcient
     }, 0)
 
-  const formattedVarAndCoefficient = `${coeficcients === 1 || coeficcients === 0 ? '' : coeficcients}${coeficcients !== 0 ? variable : ''}`
   const formattedConstant = constants !== 0 ? String(constants) : ''
-  return `${formattedVarAndCoefficient}${formattedVarAndCoefficient && formattedConstant ? '+' : ''}${formattedConstant}` || '0'
+
+  if (coeficcients === 0) {
+    return formattedConstant || '0'
+  } else {
+    const formattedVarTerm = `${coeficcients === 1 ? '' : coeficcients}${variable}`
+    return `${formattedVarTerm}${formattedVarTerm && formattedConstant ? '+' : ''}${formattedConstant}` || '0'
+  }
 }
 
 const operations = [
-  { symbol: '+', rule: (addends: string[], variable: string) => sum(addends.map(derivative), variable)},
+  { symbol: '+', rule: (addends: string[], variable: string) => sum(addends.map(derivative), variable) },
   {
     symbol: '^', rule: ([base, exponent]: string[], variable: string) => {
       const coeficcient = parseInt(getRegexMatchOrDefault(base, /-?\d+/, '1'))
 
       if (!variable?.length) {
-        return '0' // TODO
+        return '0' // TODO: look for cases where this may be incorrect
       } else {
         return `${parseInt(exponent) * coeficcient}${variable[0]}`
       }
